@@ -17,7 +17,6 @@ public class PersonController {
         this.personService = personService;
     }
 
-
     @GetMapping("/")
     public List<Person> findAll() {
         return personService.findAll();
@@ -26,7 +25,7 @@ public class PersonController {
     @GetMapping("/{id}")
     public ResponseEntity<Person> findById(@PathVariable int id) {
         var person = this.personService.findById(id);
-        return new ResponseEntity<Person>(
+        return new ResponseEntity<>(
                 person.orElse(new Person()),
                 person.isPresent() ? HttpStatus.OK : HttpStatus.NOT_FOUND
         );
@@ -34,7 +33,7 @@ public class PersonController {
 
     @PostMapping("/")
     public ResponseEntity<Person> create(@RequestBody Person person) {
-        return new ResponseEntity<Person>(
+        return new ResponseEntity<>(
                 this.personService.create(person),
                 HttpStatus.CREATED
         );
