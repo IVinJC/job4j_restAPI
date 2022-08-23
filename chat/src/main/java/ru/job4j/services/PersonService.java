@@ -1,13 +1,12 @@
-package ru.job4j.service;
+package ru.job4j.services;
 
-import org.springframework.stereotype.Controller;
+import ru.job4j.model.Person;
 import org.springframework.stereotype.Service;
-import ru.job4j.domain.Person;
 import ru.job4j.repository.PersonRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 @Service
 public class PersonService {
     private final PersonRepository personRepository;
@@ -16,25 +15,24 @@ public class PersonService {
         this.personRepository = personRepository;
     }
 
-    public List<Person> findAll() {
-        return personRepository.findAll();
-    }
-
-    public Optional<Person> findById(int id) {
-        return personRepository.findById(id);
+    public List<Person> getRoles() {
+        List<Person> persons = new ArrayList<>();
+        personRepository.findAll().forEach(persons::add);
+        return persons;
     }
 
     public Person create(Person person) {
         return personRepository.save(person);
     }
 
-    public Person update(Person person) {
+    public Person update(Person person, int id) {
+        person.setId(id);
         return personRepository.save(person);
     }
 
     public void delete(int id) {
-        Person person = new Person();
-        person.setId(id);
-        personRepository.delete(person);
+        Person role = new Person();
+        role.setId(id);
+        personRepository.delete(role);
     }
 }

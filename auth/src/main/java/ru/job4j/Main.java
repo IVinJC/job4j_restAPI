@@ -6,12 +6,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
-public class Job4jAuthApplication {
+public class Main {
     @Bean
     public RestTemplate getTemplate() {
         return new RestTemplate();
     }
     public static void main(String[] args) {
-        SpringApplication.run(Job4jAuthApplication.class, args);
+        SpringApplication.run(Main.class, args);
     }
 }
