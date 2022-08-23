@@ -1,4 +1,4 @@
-package ru.job4j.domain;
+package ru.job4j.auth.domain;
 
 import java.sql.Timestamp;
 import java.util.Objects;

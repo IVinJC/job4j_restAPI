@@ -1,6 +1,4 @@
-package ru.job4j.domain;
-
-import lombok.Getter;
+package ru.job4j.auth.domain;
 
 import javax.persistence.*;
 import java.util.Objects;

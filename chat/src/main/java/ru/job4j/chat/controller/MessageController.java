@@ -1,6 +1,6 @@
-package ru.job4j.controller;
+package ru.job4j.chat.controller;
 
-import ru.job4j.model.Message;
+import ru.job4j.chat.model.Message;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

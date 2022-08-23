@@ -1,8 +1,8 @@
-package ru.job4j.services;
+package ru.job4j.chat.services;
 
-import ru.job4j.model.Role;
+import ru.job4j.chat.model.Role;
+import ru.job4j.chat.repository.RoleRepository;
 import org.springframework.stereotype.Service;
-import ru.job4j.repository.RoleRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +16,7 @@ public class RoleService {
     }
 
     public List<Role> getRoles() {
-        List<Role> roles = new ArrayList<>();
-        roleRepository.findAll().forEach(roles::add);
-        return roles;
+        return roleRepository.findAll();
     }
 
     public Role create(Role role) {

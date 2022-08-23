@@ -1,4 +1,4 @@
-package ru.job4j.model;
+package ru.job4j.chat.model;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.client.RestTemplate;

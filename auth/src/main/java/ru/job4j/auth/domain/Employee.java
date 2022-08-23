@@ -1,4 +1,4 @@
-package ru.job4j.domain;
+package ru.job4j.auth.domain;
 
 import java.time.LocalDate;
 import java.util.List;

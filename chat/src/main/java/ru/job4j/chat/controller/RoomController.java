@@ -1,4 +1,4 @@
-package ru.job4j.controller;
+package ru.job4j.chat.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 

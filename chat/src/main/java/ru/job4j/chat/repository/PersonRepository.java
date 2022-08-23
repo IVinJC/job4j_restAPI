@@ -1,13 +1,12 @@
-package ru.job4j.repository;
+package ru.job4j.chat.repository;
 
+import ru.job4j.chat.model.Person;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import ru.job4j.domain.Person;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public interface PersonRepository extends CrudRepository<Person, Integer> {
-    public List<Person> findAll();
+    List<Person> findAll();
 }
