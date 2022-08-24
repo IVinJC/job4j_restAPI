@@ -8,14 +8,10 @@
         <version>0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>auth</artifactId>
+    <artifactId>bank</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
         <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>

@@ -5,14 +5,14 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table (name = "person")
+@Table(name = "person")
 public class Person {
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private String password;
-    @OneToMany (mappedBy = "person")
+    @OneToMany(mappedBy = "person")
     private List<Role> roles;
 
     public Person(int id, String name, List<Role> role) {
