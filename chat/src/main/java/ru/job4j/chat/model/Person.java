@@ -2,6 +2,8 @@ package ru.job4j.chat.model;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
+
 @Entity
 @Table (name = "person")
 public class Person {
@@ -9,6 +11,7 @@ public class Person {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+    private String password;
     @OneToMany (mappedBy = "person")
     private List<Role> roles;
 
@@ -20,6 +23,22 @@ public class Person {
 
     public Person() {
 
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     public int getId() {
@@ -47,11 +66,28 @@ public class Person {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Person person = (Person) o;
+        return id == person.id && Objects.equals(name, person.name) && Objects.equals(password, person.password) && Objects.equals(roles, person.roles);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, password, roles);
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Person{");
         sb.append("id=").append(id);
         sb.append(", name='").append(name).append('\'');
-        sb.append(", role=").append(roles);
+        sb.append(", password='").append(password).append('\'');
         sb.append('}');
         return sb.toString();
     }

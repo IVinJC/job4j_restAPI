@@ -1,11 +1,9 @@
 package ru.job4j.chat.services;
 
 import ru.job4j.chat.model.Person;
-import ru.job4j.chat.model.Role;
 import ru.job4j.chat.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +21,10 @@ public class PersonService {
 
     public Optional<Person> findById(int id) {
         return personRepository.findById(id);
+    }
+
+    public Optional<Person> findByName(String username) {
+        return personRepository.findByName(username);
     }
 
     public Person create(Person person) {
