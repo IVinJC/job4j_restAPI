@@ -1,6 +1,7 @@
 package ru.job4j.chat.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 
@@ -10,7 +11,9 @@ public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @NotNull(message = "Name must be not null")
     private String name;
+    @NotNull(message = "Password must be not null")
     private String password;
     @OneToMany(mappedBy = "person")
     private List<Role> roles;

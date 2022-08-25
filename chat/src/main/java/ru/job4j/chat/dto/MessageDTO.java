@@ -1,9 +1,11 @@
 package ru.job4j.chat.dto;
 
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 public class MessageDTO {
     private int id;
+    @NotNull(message = "Message must be not null")
     private String text;
 
     public MessageDTO(String text) {

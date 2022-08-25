@@ -1,10 +1,13 @@
 package ru.job4j.chat.dto;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 public class PersonDTO {
+    @NotNull(message = "Name must be not null")
     private String name;
+    @NotNull(message = "Password must be not null")
     private String password;
     private List<RoleDTO> roleDTOS;
 

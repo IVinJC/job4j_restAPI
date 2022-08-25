@@ -15,6 +15,7 @@ import ru.job4j.chat.services.PersonService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +40,7 @@ public class PersonController {
     }
 
     @PostMapping("/reg")
-    public ResponseEntity<HashMap<String, String>> signUp(@RequestBody PersonDTO personDTO) {
+    public ResponseEntity<HashMap<String, String>> signUp(@RequestBody @Valid PersonDTO personDTO) {
         if (personDTO.getPassword() == null) {
             throw new IllegalArgumentException("Define username and password");
         }
@@ -59,7 +60,7 @@ public class PersonController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Person> findById(@PathVariable int id) {
+    public ResponseEntity<Person> findById(@PathVariable @Valid int id) {
         var person = this.personService.findById(id).orElseThrow(() -> new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "PersonDTO is not found. Please, check requisites."
         ));
@@ -68,7 +69,7 @@ public class PersonController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Person> create(@RequestBody PersonDTO personDTO) {
+    public ResponseEntity<Person> create(@RequestBody @Valid PersonDTO personDTO) {
         String name = personDTO.getName();
         String password = personDTO.getPassword();
         if (name == null || password == null) {
@@ -84,16 +85,16 @@ public class PersonController {
     }
 
     @PutMapping("/")
-    public ResponseEntity<Void> update(@RequestBody Person person) {
-        String name = person.getName();
-        String password = person.getPassword();
+    public ResponseEntity<Void> update(@RequestBody @Valid PersonDTO personDTO) {
+        String name = personDTO.getName();
+        String password = personDTO.getPassword();
         if (name == null || password == null) {
             throw new IllegalArgumentException("Define username and password");
         }
         if (password.length() < 5) {
             throw new IllegalArgumentException("Invalid username or password");
         }
-        this.personService.create(person);
+        this.personService.create(toPerson(personDTO));
         return ResponseEntity.ok().build();
     }
 

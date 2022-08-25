@@ -1,9 +1,11 @@
 package ru.job4j.chat.model;
 
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 public class Message {
     private int id;
+    @NotNull(message = "Name must be not null")
     private String text;
 
     public Message(String text) {

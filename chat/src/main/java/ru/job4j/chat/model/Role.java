@@ -1,6 +1,7 @@
 package ru.job4j.chat.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 @Entity
 @Table (name = "role")
@@ -8,6 +9,7 @@ public class Role {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int id;
+    @NotNull(message = "Name must be not null")
     private String name;
     @ManyToOne ()
     @JoinColumn(name = "person_id", referencedColumnName = "id")
