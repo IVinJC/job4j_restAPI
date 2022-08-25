@@ -1,27 +1,19 @@
-package ru.job4j.chat.model;
+package ru.job4j.chat.dto;
 
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
-
-@Entity
-@Table(name = "person")
-public class Person {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public class PersonDTO {
     private String name;
     private String password;
-    @OneToMany(mappedBy = "person")
-    private List<Role> roles;
+    private List<RoleDTO> roleDTOS;
 
-    public Person(int id, String name, List<Role> role) {
-        this.id = id;
+    public PersonDTO(String name, List<RoleDTO> roleDTO) {
         this.name = name;
-        this.roles = role;
+        this.roleDTOS = roleDTO;
     }
 
-    public Person() {
+    public PersonDTO() {
 
     }
 
@@ -33,20 +25,12 @@ public class Person {
         this.password = password;
     }
 
-    public List<Role> getRoles() {
-        return roles;
+    public List<RoleDTO> getRoles() {
+        return roleDTOS;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setRoles(List<RoleDTO> roleDTOS) {
+        this.roleDTOS = roleDTOS;
     }
 
     public String getName() {
@@ -57,12 +41,12 @@ public class Person {
         this.name = name;
     }
 
-    public List<Role> getRole() {
-        return roles;
+    public List<RoleDTO> getRole() {
+        return roleDTOS;
     }
 
-    public void setRole(List<Role> role) {
-        this.roles = role;
+    public void setRole(List<RoleDTO> roleDTO) {
+        this.roleDTOS = roleDTO;
     }
 
     @Override
@@ -73,19 +57,18 @@ public class Person {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Person person = (Person) o;
-        return id == person.id && Objects.equals(name, person.name) && Objects.equals(password, person.password) && Objects.equals(roles, person.roles);
+        PersonDTO personDTO = (PersonDTO) o;
+        return Objects.equals(password, personDTO.password) && Objects.equals(roleDTOS, personDTO.roleDTOS);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, password, roles);
+        return Objects.hash(name, password, roleDTOS);
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("PersonDTO{");
-        sb.append("id=").append(id);
         sb.append(", name='").append(name).append('\'');
         sb.append(", password='").append(password).append('\'');
         sb.append('}');

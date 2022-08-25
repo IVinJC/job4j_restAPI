@@ -40,7 +40,7 @@ public class Room {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Room{");
+        final StringBuilder sb = new StringBuilder("RoomDTO{");
         sb.append("id=").append(id);
         sb.append(", name='").append(name).append('\'');
         sb.append('}');

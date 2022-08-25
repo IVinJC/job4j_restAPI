@@ -1,12 +1,12 @@
-package ru.job4j.chat.model;
+package ru.job4j.chat.dto;
 
 import java.util.Objects;
 
-public class Message {
+public class MessageDTO {
     private int id;
     private String text;
 
-    public Message(String text) {
+    public MessageDTO(String text) {
         this.text = text;
     }
 
@@ -26,8 +26,8 @@ public class Message {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Message message = (Message) o;
-        return Objects.equals(text, message.text);
+        MessageDTO messageDTO = (MessageDTO) o;
+        return Objects.equals(text, messageDTO.text);
     }
 
     @Override

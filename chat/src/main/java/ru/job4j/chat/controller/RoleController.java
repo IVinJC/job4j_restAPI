@@ -27,7 +27,7 @@ public class RoleController {
     @GetMapping("/{id}")
     public ResponseEntity<Role> findById(@PathVariable int id) {
         var role = this.roleService.findById(id).orElseThrow(() -> new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "Role is not found. Please, check requisites."
+                HttpStatus.NOT_FOUND, "RoleDTO is not found. Please, check requisites."
         ));
         return new ResponseEntity<>(role,
                 HttpStatus.OK);
