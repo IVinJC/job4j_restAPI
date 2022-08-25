@@ -8,7 +8,7 @@
         <version>0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>bank</artifactId>
+    <artifactId>repsonse</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>

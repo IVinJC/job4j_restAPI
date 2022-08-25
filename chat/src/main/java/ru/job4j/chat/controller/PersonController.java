@@ -3,6 +3,7 @@ package ru.job4j.chat.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 @Slf4j
 @RestController
 @RequestMapping("/person")
@@ -30,12 +33,14 @@ public class PersonController {
     }
 
     @PostMapping("/reg")
-    public void signUp(@RequestBody Person person) {
+    public ResponseEntity<HashMap<String, String>> signUp(@RequestBody Person person) {
         if (person.getPassword() == null) {
             throw new IllegalArgumentException("Define username and password");
         }
         person.setPassword(encoder.encode(person.getPassword()));
         personService.create(person);
+        return ResponseEntity.status(HttpStatus.OK).header("person", "created")
+                .contentType(MediaType.ALL).body(new HashMap<>(Map.of(person.getName(), person.getPassword())));
     }
 
     @GetMapping("/")

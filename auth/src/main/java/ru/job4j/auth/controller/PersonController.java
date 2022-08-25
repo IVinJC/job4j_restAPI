@@ -1,12 +1,15 @@
 package ru.job4j.auth.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.auth.domain.Person;
 import ru.job4j.auth.service.PersonService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/person")
@@ -40,9 +43,10 @@ public class PersonController {
     }
 
     @PutMapping("/")
-    public ResponseEntity<Void> update(@RequestBody Person person) {
+    public ResponseEntity<HashMap<String, String>> update(@RequestBody Person person) {
         this.personService.create(person);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.OK).header("person", "created")
+                .contentType(MediaType.ALL).body(new HashMap<>(Map.of(person.getLogin(), person.getPassword())));
     }
 
     @DeleteMapping("/{id}")
