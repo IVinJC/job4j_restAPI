@@ -27,16 +27,11 @@ import java.util.stream.Collectors;
 @RequestMapping("/person")
 public class PersonController {
     private final PersonService personService;
-    private final ObjectMapper objectMapper;
-    private BCryptPasswordEncoder encoder;
-    private final ModelMapper modelMapper;
+    private final BCryptPasswordEncoder encoder;
 
-    public PersonController(PersonService personService, ObjectMapper objectMapper,
-                            BCryptPasswordEncoder encoder, ModelMapper modelMapper) {
+    public PersonController(PersonService personService, BCryptPasswordEncoder encoder) {
         this.personService = personService;
-        this.objectMapper = objectMapper;
         this.encoder = encoder;
-        this.modelMapper = modelMapper;
     }
 
     @PostMapping("/reg")
@@ -106,6 +101,7 @@ public class PersonController {
 
     @ExceptionHandler(value = { IllegalArgumentException.class })
     public void exceptionHandler(Exception e, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         response.setContentType("application/json");
         response.getWriter().write(objectMapper.writeValueAsString(new HashMap<>() { {
@@ -116,10 +112,12 @@ public class PersonController {
     }
 
     private Person toPerson(PersonDTO personDTO) {
+        ModelMapper modelMapper = new ModelMapper();
        return modelMapper.map(personDTO, Person.class);
     }
 
     private PersonDTO toPersonDTO(Person person) {
+        ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(person, PersonDTO.class);
     }
 }
