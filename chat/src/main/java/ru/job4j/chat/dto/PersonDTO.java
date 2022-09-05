@@ -1,6 +1,5 @@
 package ru.job4j.chat.dto;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;

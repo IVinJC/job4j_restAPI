@@ -11,6 +11,16 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 public class MainChat {
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper();
+    }
+
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
