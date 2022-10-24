@@ -5,11 +5,8 @@ import java.util.Objects;
 
 public class Report {
     private int id;
-
     private String name;
-
     private Timestamp created;
-
     private Person person;
 
     public static Report of(int id, String name, Person person) {

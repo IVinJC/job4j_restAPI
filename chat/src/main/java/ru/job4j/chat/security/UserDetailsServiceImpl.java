@@ -5,10 +5,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ru.job4j.chat.model.Person;
+import ru.job4j.chat.dto.PersonDTO;
 import ru.job4j.chat.services.PersonService;
 
-import java.util.Optional;
 import static java.util.Collections.emptyList;
 
 @Service
@@ -21,10 +20,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Person> user = personService.findByName(username);
-        if (!user.isPresent()) {
+        PersonDTO user = personService.findByName(username);
+        if (user == null) {
             throw new UsernameNotFoundException(username);
         }
-        return new User(user.get().getName(), user.get().getPassword(), emptyList());
+        return new User(user.getName(), user.getPassword(), emptyList());
     }
 }

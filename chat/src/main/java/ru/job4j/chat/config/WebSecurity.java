@@ -1,6 +1,5 @@
 package ru.job4j.chat.config;
 
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,6 +14,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import ru.job4j.chat.security.JWTAuthenticationFilter;
 import ru.job4j.chat.security.JWTAuthorizationFilter;
 import ru.job4j.chat.security.UserDetailsServiceImpl;
+
 import static ru.job4j.chat.security.JWTAuthenticationFilter.SIGN_UP_URL;
 
 

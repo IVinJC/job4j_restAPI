@@ -1,9 +1,10 @@
 package ru.job4j.chat.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
+import ru.job4j.chat.dto.RoleDTO;
 import ru.job4j.chat.model.Role;
 import ru.job4j.chat.services.RoleService;
 
@@ -11,45 +12,38 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/role")
+@RequiredArgsConstructor
 public class RoleController {
 
     private final RoleService roleService;
 
-    public RoleController(RoleService roleService) {
-        this.roleService = roleService;
-    }
-
     @GetMapping("/")
-    public List<Role> findAll() {
+    public List<RoleDTO> findAll() {
         return roleService.getRoles();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Role> findById(@PathVariable int id) {
-        var role = this.roleService.findById(id).orElseThrow(() -> new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "RoleDTO is not found. Please, check requisites."
-        ));
-        return new ResponseEntity<>(role,
-                HttpStatus.OK);
+    public ResponseEntity<RoleDTO> findById(@PathVariable int id) {
+        return new ResponseEntity<>(roleService.findById(id), HttpStatus.OK);
     }
 
     @PostMapping("/")
-    public ResponseEntity<Role> create(@RequestBody Role role) {
-        if (role.getName() == null) {
+    public ResponseEntity<Role> create(@RequestBody RoleDTO roleDTO) {
+        if (roleDTO.getName() == null) {
             throw new IllegalArgumentException("Define username");
         }
         return new ResponseEntity<>(
-                this.roleService.create(role),
+                this.roleService.create(roleDTO),
                 HttpStatus.CREATED
         );
     }
 
     @PutMapping("/")
-    public ResponseEntity<Void> update(@RequestBody Role role) {
-        if (role.getName() == null) {
+    public ResponseEntity<Void> update(@RequestBody RoleDTO roleDTO) {
+        if (roleDTO.getName() == null) {
             throw new IllegalArgumentException("Define username");
         }
-        this.roleService.create(role);
+        this.roleService.create(roleDTO);
         return ResponseEntity.ok().build();
     }
 

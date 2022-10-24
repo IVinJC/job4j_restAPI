@@ -5,7 +5,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Scope;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,7 +19,6 @@ public class MainChat {
     public ObjectMapper objectMapper() {
         return new ObjectMapper();
     }
-
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {

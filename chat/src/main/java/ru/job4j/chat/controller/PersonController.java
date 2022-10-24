@@ -9,10 +9,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import ru.job4j.chat.dto.PersonDTO;
 import ru.job4j.chat.model.Person;
 import ru.job4j.chat.services.PersonService;
+import ru.job4j.chat.services.RoomService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -29,38 +28,35 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PersonController {
     private final PersonService personService;
+    private final RoomService roomService;
     private final BCryptPasswordEncoder encoder;
     private final ModelMapper modelMapper;
     private final ObjectMapper objectMapper;
 
 
-    @PostMapping("/reg")
+    @PostMapping(value = "/reg")
     public ResponseEntity<HashMap<String, String>> signUp(@RequestBody @Valid PersonDTO personDTO) {
         if (personDTO.getPassword() == null) {
             throw new IllegalArgumentException("Define username and password");
         }
-        personDTO.setPassword(encoder.encode(toPerson(personDTO).getPassword()));
-        personService.create(toPerson(personDTO));
-        return ResponseEntity.status(HttpStatus.OK).header("person", "created")
-                .contentType(MediaType.ALL).body(new HashMap<>(Map.of(
-                        toPerson(personDTO).getName(), toPerson(personDTO).getPassword())));
+        personDTO.setPassword(encoder.encode(personDTO.getPassword()));
+        personService.create(personDTO);
+        return ResponseEntity.status(HttpStatus.OK)
+                .header("person", "created")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new HashMap<>(Map.of(
+                        personDTO.getName(), personDTO.getPassword())));
     }
 
     @GetMapping("/")
-    public List<PersonDTO> findAll() {
-        return personService.getPeople()
-                .stream()
-                .map(this::toPersonDTO)
-                .collect(Collectors.toList());
+    public ResponseEntity<List<PersonDTO>> findAll() {
+        return new ResponseEntity<>(personService.getPeople(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Person> findById(@PathVariable @Valid int id) {
-        var person = this.personService.findById(id).orElseThrow(() -> new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "PersonDTO is not found. Please, check requisites."
-        ));
-        return new ResponseEntity<>(person,
-                HttpStatus.OK);
+    public ResponseEntity<PersonDTO> findById(@PathVariable @Valid int id) {
+        PersonDTO personDTO = personService.findById(id);
+        return new ResponseEntity<>(personDTO, HttpStatus.OK);
     }
 
     @PostMapping("/")
@@ -73,13 +69,14 @@ public class PersonController {
         if (password.length() < 6) {
             throw new IllegalArgumentException("Invalid username or password");
         }
+
         return new ResponseEntity<>(
-                this.personService.create(toPerson(personDTO)),
+                this.personService.create(personDTO),
                 HttpStatus.CREATED
         );
     }
 
-    @PutMapping("/")
+    @PutMapping("/update")
     public ResponseEntity<Void> update(@RequestBody @Valid PersonDTO personDTO) {
         String name = personDTO.getName();
         String password = personDTO.getPassword();
@@ -89,7 +86,7 @@ public class PersonController {
         if (password.length() < 5) {
             throw new IllegalArgumentException("Invalid username or password");
         }
-        this.personService.create(toPerson(personDTO));
+        this.personService.create(personDTO);
         return ResponseEntity.ok().build();
     }
 
@@ -99,22 +96,16 @@ public class PersonController {
         return ResponseEntity.ok().build();
     }
 
-    @ExceptionHandler(value = { IllegalArgumentException.class })
+    @ExceptionHandler(value = {IllegalArgumentException.class})
     public void exceptionHandler(Exception e, HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         response.setContentType("application/json");
-        response.getWriter().write(objectMapper.writeValueAsString(new HashMap<>() { {
-            put("message", e.getMessage());
-            put("type", e.getClass());
-        }}));
+        response.getWriter().write(objectMapper.writeValueAsString(new HashMap<>() {
+            {
+                put("message", e.getMessage());
+                put("type", e.getClass());
+            }
+        }));
         log.error(e.getLocalizedMessage());
-    }
-
-    private Person toPerson(PersonDTO personDTO) {
-       return modelMapper.map(personDTO, Person.class);
-    }
-
-    private PersonDTO toPersonDTO(Person person) {
-        return modelMapper.map(person, PersonDTO.class);
     }
 }
